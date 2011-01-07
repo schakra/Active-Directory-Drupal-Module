@@ -13,11 +13,9 @@ Prerequisites:
 3) Access to an ADFS 2.0 server that can be configured for this site.
 
 Installation Instructions:
-1) Download the Active Directory module for Drupal (ADFS.zip).
+1) Download the Active Directory module for Drupal (ADFS directory).
 2) Copy the module files
-    - Move the ADFS.zip folder to <Drupal-install-Root-dir>/sites/all/modules
-    - Unzip the module in this location, to create an ADFS folder and associated
-      files
+    - Move the ADFS folder to <Drupal-install-Root-dir>/sites/all/modules
 3) Login to Drupal 7 as a site administrator
 4) Under Modules, activate the Active Directory module and Save Configuration
 5) Select Permissions, next to Active Directory module and enable Administrator and Save
