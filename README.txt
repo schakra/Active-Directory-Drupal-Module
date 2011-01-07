@@ -51,12 +51,11 @@ Configuring ADFS 2.0 (On Windows Server 2008):
     h. Ready to Add Trust: Close the Wizard and continue with Claims
     i. Configure Claims:  This may vary based on configuration and determines
        the values for 6.e under Installation.
-        - A sample configuration which works for most servers:
+        - A sample configuration with mandatory claim "Name ID" is as below
              - Use LDAP Attributes
              - Name the claim: Default
              - Attribute Store: Active Directory
-             - LDAP: SAM-Account-Name    Outgoing: Name
-             - LDAP: E-Mail-Addresses    Outgoing: Email
+             - LDAP: SAM-Account-Name    Outgoing: Name ID
 
 USAGE
 -----
