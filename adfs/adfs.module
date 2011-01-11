@@ -19,16 +19,16 @@
 function adfs_help($path, $arg) {
   switch ($path) {
     case 'user/%/adfs':
-      $output = '<p>' . t('This site supports <a href="#">ADFS</a>, a secure way to log in to websites using an existing Windows ADFS Account.') . '</p>';
+      $output = '<p>' . t('This site supports <a href="#">Active Directory</a>, a secure way to log in to websites using an existing Active Directory Account.') . '</p>';
       return $output;
     case 'admin/help#adfs':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('The ADFS module allows users to log in using an existing ADFS account.') . '</p>';
+      $output .= '<p>' . t('The ADFS module allows users to log in using an existing Active Directory account.') . '</p>';
       $output .= '<h3>' . t('Uses') . '</h3>';
       $output .= '<dl>';
-      $output .= '<dt>' . t('Logging in with ADFS') . '</dt>';
-      $output .= '<dd>' . t("To log in using ADFS, a user must already have an ADFS account on the IdP server configured in ADFS Settings. Users can then create site accounts using their ADFS identity, assign an ADFS identity to an existing account, and log in using an ADFS account. This lowers the barrier to registration, which helps increase the user base, and offers convenience and security to the users.") . '</dd>';
+      $output .= '<dt>' . t('Logging in with Active Directory') . '</dt>';
+      $output .= '<dd>' . t("To log in using Active Directory, a user must already have an Active Directory account on the IdP server configured in ADFS Settings. Users can then create site accounts using their Active Directory identity, assign an Active Directory identity to an existing account, and log in using an Active Directory account. This lowers the barrier to registration, which helps increase the user base, and offers convenience and security to the users.") . '</dd>';
       $output .= '</dl>';
       return $output;
   }
@@ -65,14 +65,14 @@ function adfs_menu() {
    * processing of and redirection to the appropriate page
    */
   $items['adfs/authenticate'] = array(
-      'title' => 'ADFS Login',
+      'title' => 'Active Directory Login',
       'page callback' => 'adfs_authenticate',
       'access callback' => TRUE,     //'any_user',
       'type' => MENU_CALLBACK,
       'file' => 'adfs.module',
   );
   $items['user/%user/adfs'] = array(
-      'title' => 'ADFS identities',
+      'title' => 'Active Directory Identity',
       'page callback' => 'adfs_user_identities',
       'page arguments' => array(1),
       'access callback' => 'user_edit_access',
@@ -81,7 +81,7 @@ function adfs_menu() {
       'file' => 'adfs.pages.inc',
   );
   $items['user/%user/adfs/delete'] = array(
-      'title' => 'Delete ADFS',
+      'title' => 'Delete Active Directory Association',
       'page callback' => 'drupal_get_form',
       'page arguments' => array('adfs_user_delete_form', 1),
       'access callback' => 'user_edit_access',
@@ -116,7 +116,7 @@ function adfs_validated() {
 }
 
 /**
- * Determine if the ADFS login link is accessible.
+ * Determine if the Active Directory login link is accessible.
  *
  * This is a menu access callback.
  */
@@ -201,12 +201,12 @@ function _adfs_user_login_form_alter(&$form, &$form_state) {
   $form['#attached']['css'][] = drupal_get_path('module', 'adfs') . '/adfs.css';
 
 //    $form['adfs_link'] = array(
-//        '#markup' => l(t('Log in using ADFS'), 'adfs/validate').'<br>',
+//        '#markup' => l(t('Log in using Active Directory'), 'adfs/validate').'<br>',
 //        '#weight' => 10);
 
   $items = array();
   $items[] = array(
-      'data' => l(t('Log in using ADFS'), 'adfs/authenticate'),
+      'data' => l(t('Log in using Active Directory'), 'adfs/authenticate'),
       'class' => array('adfs-link'),
   );
 
@@ -286,7 +286,7 @@ function adfs_form_user_register_form_alter(&$form, &$form_state) {
     $form['adfs_display'] = array(
         '#type' => 'item',
         '#title' => t('Your ADFS'),
-        '#description' => t('This ADFS identity will be attached to your account after registration.'),
+        '#description' => t('This Active Directory identity will be attached to your account after registration.'),
         //'#markup' => check_plain($response['uid']),
         '#markup' => check_plain($response->nameIdentifier),
     );
@@ -362,7 +362,7 @@ function adfs_prp() {
         drupal_goto($return_url);
       }  
   } catch (Exception $e) {
-      drupal_set_message(t('ADFS login failed. ('. $e->getMessage(). ')'), 'error');
+      drupal_set_message(t('Active Directory login failed. ('. $e->getMessage(). ')'), 'error');
   }
   drupal_goto();
 }
@@ -386,11 +386,11 @@ function adfs_authentication($response, $return_url) {
         // Load global $user and perform final login tasks.
         $form_state['uid'] = $account->uid;
         user_login_submit(array(), $form_state);
-        // Let other modules act on ADFS login
+        // Let other modules act on Active Directory login
         module_invoke_all('adfs_response', $response, $account);
       }
     } else {
-      drupal_set_message(t('You must validate your email address for this account before logging in via ADFS.'));
+      drupal_set_message(t('You must validate your email address for this account before logging in via Active Directory.'));
     }
   } elseif (variable_get('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL)) {
     // Register new user.
@@ -411,9 +411,9 @@ function adfs_authentication($response, $return_url) {
       // If the ADFS provider did not provide both a user name and an email
       // address, ask the user to complete the registration manually instead of
       // showing the error messages about the missing values generated by FAPI.
-      drupal_set_message(t('Complete the registration by filling out the form below. If you already have an account, you can <a href="@login">log in</a> now and add your ADFS identity under "My account".', array('@login' => url('user/login'))), 'warning');
+      drupal_set_message(t('Complete the registration by filling out the form below. If you already have an account, you can <a href="@login">log in</a> now and add your Active Directory identity under "My account".', array('@login' => url('user/login'))), 'warning');
     } else {
-      drupal_set_message(t('Account registration using the information provided by your ADFS provider failed due to the reasons listed below. Complete the registration by filling out the form below. If you already have an account, you can <a href="@login">log in</a> now and add your ADFS identity under "My account".', array('@login' => url('user/login'))), 'warning');
+      drupal_set_message(t('Account registration using the information provided by your ADFS provider failed due to the reasons listed below. Complete the registration by filling out the form below. If you already have an account, you can <a href="@login">log in</a> now and add your Active Directory identity under "My account".', array('@login' => url('user/login'))), 'warning');
       // Append form validation errors below the above warning.
       foreach ($messages['error'] as $message) {
         drupal_set_message($message, 'error');

@@ -48,7 +48,7 @@ function adfs_user_identities($account) {
       unset($_SESSION['adfs_response']);
     }
     /*elseif (($account->uid != $exists) & isset($_SESSION['adfs_authenticated']))  { 
-      drupal_set_message(t('Provided ADFS account already mapped with a different user in this site. Please use a different ADFS account.'), 'error');
+      drupal_set_message(t('Provided Active Directory account already mapped with a different user in this site. Please use a different Active Directory account.'), 'error');
     }*/
     
     // We are done with the session store
@@ -119,7 +119,7 @@ function adfs_user_delete_form_submit($form, &$form_state) {
                   ->condition('module', 'adfs')
                   ->execute();
   if ($query) {
-    drupal_set_message(t('ADFS deleted.'));
+    drupal_set_message(t('Active Directory association deleted.'));
   }
   $form_state['redirect'] = 'user/' . $form_state['build_info']['args'][0]->uid . '/adfs';
   //if ($user->uid == $form_state['build_info']['args'][0]->uid) {
