@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @version     $Id: adfs.install $
+ * @copyright   Copyright (C) 2010 Schakra, Inc. All rights reserved.
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html
+ * @package     Drupal
+ * @subpackage  ADFS
+ * @since 7.x
+ */
+
+/**
+ * Implementation of hook_install
+ */
+function adfs_install() {
+
+}
+
+/**
+ * Implementation of hook_uninstall
+ */
+function adfs_uninstall() {
+  // Remove any ADFS account mappings
+  db_delete('authmap')
+          ->condition('module', "adfs")
+          ->execute();
+
+  // Remove any variables that were created
+  variable_del('adfs_idp_sso_target_url');
+  variable_del('adfs_sp_identity');
+  variable_del('adfs_private_certificate_path');
+  variable_del('adfs_private_certificate_password');  
+}
+
+?>
