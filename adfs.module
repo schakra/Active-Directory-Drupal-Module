@@ -35,13 +35,15 @@ function adfs_help($path, $arg) {
 }
 
 /**
- * Implement hook_perm()
+ * Implements hook_permission().
  */
 function adfs_permission() {
-  return array('administer adfs' => array(
-          'title' => t('Administer ADFS'),
-          'description' => t('Perform administration tasks for ADFS')
-  ));
+  return array(
+    'administer adfs' => array(
+      'title' => t('Administer ADFS'),
+      'description' => t('Perform administration tasks for ADFS'),
+    ),
+  );
 }
 
 /**
